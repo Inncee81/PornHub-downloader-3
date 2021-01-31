@@ -3,7 +3,7 @@ def get_num_ending(num, cases):
     стоящего перед ним.
     """
     num = num % 100
-    if num in [11, 19]:
+    if 11 <= num <= 19:
         return cases[2]
     else:
         i = num % 10
