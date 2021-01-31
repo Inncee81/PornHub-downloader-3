@@ -71,7 +71,7 @@ class PornhubDownloader():
             .get_text()
         return views
 
-    def download(self):
+    def video_download(self):
         """Заходим с помощью вебдрайвера на сайт pornhubdownload.com и
         через него скачиваем видео.
         """
@@ -98,13 +98,7 @@ class PornhubDownloader():
                 self.video_quality = q.find_all("td")[0].get_text()
                 break
 
-        r = requests.get(self.video_url, headers=self.HEADERS)
-        if r.status_code == self.REQUEST_STATUS_CODE:
-            with open(self.file_path, mode="wb") as f:
-                f.write(r.content)
-            return True
-        else:
-            return False
+        return download(self.video_url, self.file_path)
 
     def main(self):
         # Создаём папку с порно, если её ещё нет
@@ -135,7 +129,7 @@ class PornhubDownloader():
                 print("Начинаем скачивать видео...")
 
                 time_start = time.time()  # сохраняем время начала скачивания
-                success = self.download()
+                success = self.video_download()
 
                 if success:
                     time_finish = time.time()  # сохраняем время конца скачивания
