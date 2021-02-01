@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import time
 from pathlib import Path
 
@@ -87,7 +88,7 @@ class PornhubDownloader():
         self.driver.close()
         self.driver.quit()
 
-        resp = requests.get(page_url)
+        resp = requests.get(page_url, headers=HEADERS)
         soup = BeautifulSoup(resp.content, "html.parser")
         video_quality_array = soup.find_all("tr")
 
@@ -133,17 +134,10 @@ class PornhubDownloader():
 
                 if success:
                     time_finish = time.time()  # сохраняем время конца скачивания
-                    download_time = round(time_finish - time_start)
-                    seconds = get_num_ending(download_time, [
-                        "секунду",
-                        "секунды",
-                        "секунд"
-                    ])
-                    print("Видео '{}' в качесте {} скачено за {} {}.".format(
+                    print("Видео '{}' в качесте {} скачено за {}.".format(
                         self.title,
                         self.video_quality,
-                        download_time,
-                        seconds
+                        download_time(round(time_finish - time_start))
                     ))
                 else:
                     print("Что-то пошло не так...")

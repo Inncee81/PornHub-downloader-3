@@ -2,23 +2,6 @@ from tqdm import tqdm
 import requests
 
 
-def get_num_ending(num, cases):
-    """Склоняет существительное,в зависимости от числительного,
-    стоящего перед ним.
-    """
-    num = num % 100
-    if 11 <= num <= 19:
-        return cases[2]
-    else:
-        i = num % 10
-        if i == 1:
-            return cases[0]
-        elif 2 <= i <= 4:
-            return cases[1]
-        else:
-            return cases[2]
-
-
 def download(url, filename):
     # Streaming, so we can iterate over the response.
     response = requests.get(url, stream=True)
@@ -34,3 +17,25 @@ def download(url, filename):
         return False
     else:
         return True
+
+
+def get_num_ending(n, cases):
+    """Склоняет существительное,в зависимости от числительного,
+    стоящего перед ним.
+    """
+    if n % 10 == 1 and n % 100 != 11:
+        return cases[0]
+    elif 2 <= n % 10 <= 4 and (n % 100 < 10 or n % 100 >= 20):
+        return cases[1]
+    else:
+        return cases[2]
+
+
+def download_time(seconds):
+    """Возвращает время в правильном падеже."""
+    seconds_decline = get_num_ending(seconds, [
+        "секунду",
+        "секунды",
+        "секунд"
+        ])
+    return f"{seconds} {seconds_decline}"
