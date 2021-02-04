@@ -124,10 +124,12 @@ class PornhubDownloader():
 
                 if success:
                     time_finish = time.time()  # сохраняем время конца скачивания
+                    download_time = round(time_finish - time_start)
+
                     print("Видео '{}' в качесте {} скачено за {}.".format(
                         self.title,
                         self.video_quality,
-                        download_time(round(time_finish - time_start))
+                        numeral.get_plural(download_time, "секунду, секунды, секунд")
                     ))
                 else:
                     print("Что-то пошло не так...")
